@@ -25,7 +25,7 @@ module OmniContacts
       private
 
       def contacts_from_response contacts_as_json
-        json = JSON.parse(escape_windows_format(contacts_as_json))
+        json = MultiJson.decode(escape_windows_format(contacts_as_json))
         result = []
         json["data"].each do |contact|
           result << {:email => contact["name"]} if valid_email? contact["name"]

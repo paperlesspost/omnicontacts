@@ -1,5 +1,5 @@
 require "omnicontacts/http_utils"
-require "json"
+require "multi_json"
 
 # This module represents an OAuth 2.0 client.
 #
@@ -56,7 +56,7 @@ module OmniContacts
       end
 
       def access_token_from_response response
-        json = JSON.parse(response)
+        json = MultiJson.decode(response)
         raise json["error"] if json["error"]
         [json["access_token"], json["token_type"], json["refresh_token"]]
       end

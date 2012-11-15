@@ -1,5 +1,5 @@
 require "omnicontacts/middleware/oauth1"
-require "json"
+require "multi_json"
 
 module OmniContacts
   module Importer
@@ -42,7 +42,7 @@ module OmniContacts
       end
 
       def contacts_from_response contacts_as_json
-        json = JSON.parse(contacts_as_json)
+        json = MultiJson.decode(contacts_as_json)
         result = []
         return result unless json["contacts"]["contact"]
         json["contacts"]["contact"].each do |entry|
