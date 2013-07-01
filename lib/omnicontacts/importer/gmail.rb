@@ -44,7 +44,7 @@ module OmniContacts
       end
 
       def contacts_from_response response_as_json
-        response = JSON.parse(response_as_json)
+        response = MultiJson.load(response_as_json)
         return [] if response['feed'].nil? || response['feed']['entry'].nil?
         contacts = []
         return contacts if response.nil?
@@ -79,7 +79,7 @@ module OmniContacts
 
       def current_user me
         return nil if me.nil?
-        me = JSON.parse(me)
+        me = MultiJson.load(me)
         user = {:id => me['id'], :email => me['email'], :name => me['name'], :first_name => me['given_name'],
                 :last_name => me['family_name'], :gender => me['gender'], :birthday => birthday(me['birthday']), :profile_picture => me['picture']
         }

@@ -1,6 +1,5 @@
 require "omnicontacts/parse_utils"
 require "omnicontacts/middleware/oauth2"
-require "json"
 
 module OmniContacts
   module Importer
@@ -38,7 +37,7 @@ module OmniContacts
 
       def fetch_current_user access_token
         self_response = https_get(@contacts_host, @self_path, {:access_token => access_token, :fields => 'first_name,last_name,name,id,gender,birthday,picture,relationship_status,significant_other'})
-        self_response = JSON.parse(self_response) if self_response
+        self_response = MultiJson.load(self_response) if self_response
         self_response
       end
 
@@ -57,20 +56,20 @@ module OmniContacts
         contacts = []
         family_ids = Set.new
         if spouse_response
-          spouse_contact = create_contact_element(JSON.parse(spouse_response))
+          spouse_contact = create_contact_element(MultiJson.load(spouse_response))
           spouse_contact[:relation] = 'spouse'
           contacts << spouse_contact
           family_ids.add(spouse_contact[:id])
         end
         if family_response
-          family_response = JSON.parse(family_response)
+          family_response = MultiJson.load(family_response)
           family_response['data'].each do |family_contact|
             contacts << create_contact_element(family_contact)
             family_ids.add(family_contact['id'])
           end
         end
         if friends_response
-          friends_response = JSON.parse(friends_response)
+          friends_response = MultiJson.load(friends_response)
           friends_response['data'].each do |friends_contact|
             contacts << create_contact_element(friends_contact) unless family_ids.include?(friends_contact['id'])
           end

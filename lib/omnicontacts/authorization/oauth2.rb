@@ -1,5 +1,4 @@
 require "omnicontacts/http_utils"
-require "json"
 
 # This module represents an OAuth 2.0 client.
 #
@@ -59,7 +58,7 @@ module OmniContacts
         if auth_host == "graph.facebook.com"
           response = query_string_to_map(response).to_json
         end
-        json = JSON.parse(response)
+        json = MultiJson.load(response)
         raise json["error"] if json["error"]
         [json["access_token"], json["token_type"], json["refresh_token"]]
       end

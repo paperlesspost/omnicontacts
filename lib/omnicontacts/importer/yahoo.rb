@@ -1,6 +1,5 @@
 require "omnicontacts/parse_utils"
 require "omnicontacts/middleware/oauth1"
-require "json"
 
 module OmniContacts
   module Importer
@@ -51,7 +50,7 @@ module OmniContacts
       end
 
       def contacts_from_response response_as_json
-        response = JSON.parse(response_as_json)
+        response = MultiJson.load(response_as_json)
         contacts = []
         return contacts unless response['contacts']['contact']
         response['contacts']['contact'].each do |entry|
@@ -128,7 +127,7 @@ module OmniContacts
 
       def current_user me
         return nil if me.nil?
-        me = JSON.parse(me)
+        me = MultiJson.load(me)
         me = me['profile']
         email = parse_email(me['emails'])
         user = {:id => me["guid"], :email => email, :name => full_name(me['givenName'],me['familyName']), :first_name => normalize_name(me['givenName']),
@@ -141,7 +140,7 @@ module OmniContacts
       #def profile_image_url(guid, access_token, access_token_secret)
       #  image_path = "/v1/user/#{guid}/profile/image/48x48"
       #  response = http_get(@contacts_host, image_path, contacts_req_params(access_token, access_token_secret, image_path))
-      #  image_data = JSON.parse(response)
+      #  image_data = MultiJson.load(response)
       #  return image_data['image']['imageUrl'] if image_data['image']
       #  return nil
       #end

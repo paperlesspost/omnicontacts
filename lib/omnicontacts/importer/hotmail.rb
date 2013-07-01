@@ -1,6 +1,5 @@
 require "omnicontacts/middleware/oauth2"
 require "omnicontacts/parse_utils"
-require "json"
 
 module OmniContacts
   module Importer
@@ -35,7 +34,7 @@ module OmniContacts
       private
 
       def contacts_from_response response_as_json
-        response = JSON.parse(response_as_json)
+        response = MultiJson.load(response_as_json)
         contacts = []
         response['data'].each do |entry|
           # creating nil fields to keep the fields consistent across other networks
@@ -64,7 +63,7 @@ module OmniContacts
 
       def current_user me
         return nil if me.nil?
-        me = JSON.parse(me)
+        me = MultiJson.load(me)
         email = parse_email(me['emails'])
         picture_url = "https://apis.live.net/v5.0/" + me['id'] + '/picture'
         user = {:id => me['id'], :email => email, :name => me['name'], :first_name => me['first_name'],

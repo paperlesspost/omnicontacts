@@ -8,7 +8,7 @@ Gem::Specification.new do |gem|
   gem.email = ['diegocastorina@gmail.com']
 
   gem.add_runtime_dependency 'rack'
-  gem.add_runtime_dependency 'json'
+  gem.add_runtime_dependency 'multi_json'
 
   gem.add_development_dependency 'simplecov'
   gem.add_development_dependency 'rake'
