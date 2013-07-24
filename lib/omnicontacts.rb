@@ -1,6 +1,6 @@
 module OmniContacts
   
-  VERSION = "0.3.6.paperlesspost"
+  VERSION = "0.3.7.paperlesspost"
 
   autoload :Builder, "omnicontacts/builder"
   autoload :Importer, "omnicontacts/importer"
