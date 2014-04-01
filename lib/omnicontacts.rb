@@ -1,6 +1,6 @@
 module OmniContacts
-  
-  VERSION = "0.3.8.paperlesspost"
+
+  VERSION = "0.3.9.paperlesspost"
 
   autoload :Builder, "omnicontacts/builder"
   autoload :Importer, "omnicontacts/importer"
@@ -8,9 +8,9 @@ module OmniContacts
 
   class AuthorizationError < RuntimeError
   end
-  
+
   def self.integration_test
     IntegrationTest.instance
   end
-  
+
 end
