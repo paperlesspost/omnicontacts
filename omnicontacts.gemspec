@@ -7,7 +7,7 @@ Gem::Specification.new do |gem|
   gem.authors = ['Diego Castorina']
   gem.email = ['diegocastorina@gmail.com']
 
-  gem.add_runtime_dependency 'rack'
+  gem.add_runtime_dependency 'rack', '1.5.2'
   gem.add_runtime_dependency 'multi_json'
 
   gem.add_development_dependency 'simplecov'
